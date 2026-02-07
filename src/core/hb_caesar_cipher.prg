@@ -34,12 +34,11 @@ function Main()
     cCaesarCipherEncoded:=hb_CaesarCipher():Encode(cText,nShift)
     ? "Encoded: ",cCaesarCipherEncoded,"<br/>"
 
-    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecode(cCaesarCipherEncoded)
-
     cCaesarCipherDecoded:=hb_CaesarCipher():Decode(cCaesarCipherEncoded,-nShift)
     ? "Decoded: ",cCaesarCipherDecoded,"<br/>"
 
     cBruteForce:=""
+    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecode(cCaesarCipherEncoded)
     for each cKey in hb_HKeys(hBruteForceDecode)
         cCaesarCipherEncoded:=hBruteForceDecode[cKey]["value"]
         if (cCaesarCipherEncoded==cText)
@@ -63,12 +62,11 @@ function Main()
     cCaesarCipherEncoded:=hb_CaesarCipher():Encode(hb_Base64Encode(cText),nShift)
     ? "Encoded: ",cCaesarCipherEncoded,"<br/>"
 
-    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecode(cCaesarCipherEncoded)
-
     cCaesarCipherDecoded:=hb_Base64Decode(hb_CaesarCipher():Decode(cCaesarCipherEncoded,-nShift))
     ? "Decoded: ",cCaesarCipherDecoded,"<br/>"
 
     cBruteForce:=""
+    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecode(cCaesarCipherEncoded)
     for each cKey in hb_HKeys(hBruteForceDecode)
         cCaesarCipherEncoded:=hb_Base64Decode(hBruteForceDecode[cKey]["value"])
         if (cCaesarCipherEncoded==cText)
@@ -92,12 +90,11 @@ function Main()
     cCaesarCipherEncoded:=hb_CaesarCipher():EncodeEx(cText,nShift)
     ? "Encoded: ",cCaesarCipherEncoded,"<br/>"
 
-    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded)
-
     cCaesarCipherDecoded:=hb_CaesarCipher():DecodeEx(cCaesarCipherEncoded,-nShift)
     ? "Decoded: ",cCaesarCipherDecoded,"<br/>"
 
     cBruteForce:=""
+    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded)
     for each cKey in hb_HKeys(hBruteForceDecode)
         cCaesarCipherEncoded:=hBruteForceDecode[cKey]["value"]
         if (cCaesarCipherEncoded==cText)
@@ -119,12 +116,11 @@ function Main()
     cCaesarCipherEncoded:=hb_CaesarCipher():EncodeEx(hb_Base64Encode(cText),nShift)
     ? "Encoded: ",cCaesarCipherEncoded,"<br/>"
 
-    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded)
-
     cCaesarCipherDecoded:=hb_Base64Decode(hb_CaesarCipher():DecodeEx(cCaesarCipherEncoded,-nShift))
     ? "Decoded: ",cCaesarCipherDecoded,"<br/>"
 
     cBruteForce:=""
+    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded)
     for each cKey in hb_HKeys(hBruteForceDecode)
         cCaesarCipherEncoded:=hb_Base64Decode(hBruteForceDecode[cKey]["value"])
         if (cCaesarCipherEncoded==cText)
@@ -146,10 +142,9 @@ function Main()
     cCaesarCipherDecoded:=hb_CaesarCipher():DecodeEx(cCaesarCipherEncoded,-11)
     ? "Decoded: ",cCaesarCipherDecoded,"<br/>"
 
-    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded)
-
     nStep:=0
     cBruteForce:=""
+    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded)
     for each cKey in hb_HKeys(hBruteForceDecode)
         if (hBruteForceDecode[cKey]["value"]==cText)
             nStep:=hBruteForceDecode[cKey]["shift"]
@@ -172,12 +167,11 @@ function Main()
     cCaesarCipherEncoded:=hb_CaesarCipher():EncodeEx(cText,nShift)
     ? "Encoded: ",cCaesarCipherEncoded,"<br/>"
 
-    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded,1000)
-
     cCaesarCipherDecoded:=hb_CaesarCipher():DecodeEx(cCaesarCipherEncoded,-nShift)
     ? "Decoded: ",cCaesarCipherDecoded,"<br/>"
 
     cBruteForce:=""
+    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded,1000)
     for each cKey in hb_HKeys(hBruteForceDecode)
         if (hBruteForceDecode[cKey]["value"]==cText)
             nStep:=hBruteForceDecode[cKey]["shift"]
