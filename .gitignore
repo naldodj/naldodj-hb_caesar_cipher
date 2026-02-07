@@ -1,0 +1,8 @@
+
+_commit.txt
+/src/tst/json-data
+/src/tst/json-schema
+*.log*
+*.sh256
+src/tst/huffmannode_tst.sh256
+/src/tst/log
