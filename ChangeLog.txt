@@ -2,8 +2,14 @@
      * Change  ! Fix  % Optimize  + Add  - Remove  ; Comment
    Entries may not always be in chronological/commit order.
    See license at the end of file.
-   (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm")+" UTC naldodj (Reorder brute-force decode assignments)"
+   (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm")+" UTC naldodj (Remove debug prints in Main)"
 */
+
+2026-02-07 13:40 UTC naldodj (Remove debug prints in Main)
+  Remove debug prints in Main()
+    Remove leftover debug print statements in Main() that displayed nShift and extra separator lines.
+    Cleans up console/HTML output around the base64/caesar encoding display; no functional change to encoding logic.
+    * src/core/hb_caesar_cipher.prg
 
 2026-02-07 13:34 UTC naldodj (Reorder brute-force decode assignments)
   Reorder brute-force decode assignments

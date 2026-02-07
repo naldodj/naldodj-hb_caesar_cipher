@@ -55,10 +55,6 @@ function Main()
     ? "<pre>",PADC("NORMAL BASE64 :: Shift("+hb_NToC(nShift)+")",120," "),"</pre>"
     ? cHSep,"<br/>"
 
-    ? "nShift: ",nShift,"<br/>"
-
-    ? cHSep,"<br/>"
-
     cCaesarCipherEncoded:=hb_CaesarCipher():Encode(hb_Base64Encode(cText),nShift)
     ? "Encoded: ",cCaesarCipherEncoded,"<br/>"
 
