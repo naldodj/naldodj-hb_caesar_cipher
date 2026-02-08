@@ -55,16 +55,16 @@ function Main()
     ? "<pre>",PADC("NORMAL BASE64 :: Shift("+hb_NToC(nShift)+")",120," "),"</pre>"
     ? cHSep,"<br/>"
 
-    cCaesarCipherEncoded:=hb_CaesarCipher():Encode(hb_Base64Encode(cText),nShift)
+    cCaesarCipherEncoded:=hb_CaesarCipher():Encode(cText,nShift,.T.)
     ? "Encoded: ",cCaesarCipherEncoded,"<br/>"
 
-    cCaesarCipherDecoded:=hb_Base64Decode(hb_CaesarCipher():Decode(cCaesarCipherEncoded,-nShift))
+    cCaesarCipherDecoded:=hb_CaesarCipher():Decode(cCaesarCipherEncoded,-nShift,.T.)
     ? "Decoded: ",cCaesarCipherDecoded,"<br/>"
 
     cBruteForce:=""
-    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecode(cCaesarCipherEncoded)
+    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecode(cCaesarCipherEncoded,.T.)
     for each cKey in hb_HKeys(hBruteForceDecode)
-        cCaesarCipherEncoded:=hb_Base64Decode(hBruteForceDecode[cKey]["value"])
+        cCaesarCipherEncoded:=hBruteForceDecode[cKey]["value"]
         if (cCaesarCipherEncoded==cText)
             nStep:=hBruteForceDecode[cKey]["shift"]
             cBruteForce:=cCaesarCipherEncoded
@@ -102,23 +102,22 @@ function Main()
 
     ? "BruteForce: ",cBruteForce," :: Step: ",hb_NToc(nStep),"<br/>"
 
-
     nShift:=115
 
     ? cHSep,"<br/>"
     ? "<pre>",PADC("EXTENDED BASE64 :: Shift("+hb_NToC(nShift)+")",120," "),"</pre>"
     ? cHSep,"<br/>"
 
-    cCaesarCipherEncoded:=hb_CaesarCipher():EncodeEx(hb_Base64Encode(cText),nShift)
+    cCaesarCipherEncoded:=hb_CaesarCipher():EncodeEx(cText,nShift)
     ? "Encoded: ",cCaesarCipherEncoded,"<br/>"
 
-    cCaesarCipherDecoded:=hb_Base64Decode(hb_CaesarCipher():DecodeEx(cCaesarCipherEncoded,-nShift))
+    cCaesarCipherDecoded:=hb_CaesarCipher():DecodeEx(cCaesarCipherEncoded,-nShift)
     ? "Decoded: ",cCaesarCipherDecoded,"<br/>"
 
     cBruteForce:=""
     hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded)
     for each cKey in hb_HKeys(hBruteForceDecode)
-        cCaesarCipherEncoded:=hb_Base64Decode(hBruteForceDecode[cKey]["value"])
+        cCaesarCipherEncoded:=hBruteForceDecode[cKey]["value"]
         if (cCaesarCipherEncoded==cText)
             nStep:=hBruteForceDecode[cKey]["shift"]
             cBruteForce:=cCaesarCipherEncoded
@@ -214,7 +213,7 @@ function hb_CaesarCipher()
 
     return(s_ohb_CaesarCipherClass:Instance()) as object
 
-static function Encode(cText as character,nShift as numeric)
+static function Encode(cText as character,nShift as numeric,lBase64Encode as logical)
 
     local cOut as character :=""
 
@@ -227,6 +226,11 @@ static function Encode(cText as character,nShift as numeric)
 
     //normaliza shifts (permite negativo)
     nShift26:=NormalizeShift(nShift,26)
+
+    hb_Default(@lBase64Encode,.F.)
+    if (lBase64Encode)
+        cText:=hb_Base64Encode(cText)
+    endif
 
     for i:=1 to Len(cText)
 
@@ -258,10 +262,15 @@ static function Encode(cText as character,nShift as numeric)
 
 return(cOut)
 
-static function Decode(cText as character,nShift as numeric)
-return(Encode(cText,nShift))
+static function Decode(cText as character,nShift as numeric,lBase64Encode as logical)
+    local cDecoded:=Encode(cText,nShift,.F.)
+    hb_Default(@lBase64Encode,.F.)
+    if (lBase64Encode)
+        cDecoded:=hb_Base64Decode(cDecoded)
+    endif
+return(cDecoded)
 
-static function BruteForceDecode(cText as character,nShift as numeric,nSignal as numeric)
+static function BruteForceDecode(cText as character,nShift as numeric,nSignal as numeric,lBase64Encode as logical)
 
     local cTry as character
     local cKey as character
@@ -273,6 +282,7 @@ static function BruteForceDecode(cText as character,nShift as numeric,nSignal as
 
     hb_Default(@nShift,115)
     hb_Default(@nSignal,(-1))
+    hb_Default(@lBase64Encode,.F.)
 
     if (Empty(nSignal))
         nSignal:=(-1)
@@ -285,7 +295,7 @@ static function BruteForceDecode(cText as character,nShift as numeric,nSignal as
     nKeySize:=Len(hb_NToC(nShift))
 
     for n:=0 to nShift
-        cTry:=Decode(cText,(n*nSignal))
+        cTry:=Decode(cText,(n*nSignal),lBase64Encode)
         cKey:=StrZero(n,nKeySize)
         hBruteForceDecode[cKey]:={=>}
         hBruteForceDecode[cKey]["shift"]:=n
@@ -294,7 +304,7 @@ static function BruteForceDecode(cText as character,nShift as numeric,nSignal as
 
 return(hBruteForceDecode)
 
-static function EncodeEx(cText as character,nShift as numeric)
+static function EncodeEx(cText as character,nShift as numeric,lBase64Encode as logical)
 
     local cOut as character :=""
 
@@ -309,6 +319,11 @@ static function EncodeEx(cText as character,nShift as numeric)
     //normaliza shifts (permite negativo)
     nShift26:=NormalizeShift(nShift,26)
     nShift10:=NormalizeShift(nShift*2+5,10)
+
+    hb_Default(@lBase64Encode,.T.)
+    if (lBase64Encode)
+        cText:=hb_Base64Encode(cText)
+    endif
 
     for i:=1 to Len(cText)
 
@@ -350,10 +365,15 @@ static function EncodeEx(cText as character,nShift as numeric)
 
 return(cOut)
 
-static function DecodeEx(cText as character,nShift as numeric)
-return(EncodeEx(cText,nShift))
+static function DecodeEx(cText as character,nShift as numeric,lBase64Encode as logical)
+    local cDecoded:=EncodeEx(cText,nShift,.F.)
+    hb_Default(@lBase64Encode,.T.)
+    if (lBase64Encode)
+        cDecoded:=hb_Base64Decode(cDecoded)
+    endif
+return(cDecoded)
 
-static function BruteForceDecodeEx(cText as character,nShift as numeric,nSignal as numeric)
+static function BruteForceDecodeEx(cText as character,nShift as numeric,nSignal as numeric,lBase64Encode as logical)
 
     local cTry as character
     local cKey as character
@@ -365,6 +385,7 @@ static function BruteForceDecodeEx(cText as character,nShift as numeric,nSignal 
 
     hb_Default(@nShift,115)
     hb_Default(@nSignal,(-1))
+    hb_Default(@lBase64Encode,.T.)
 
     if (Empty(nSignal))
         nSignal:=(-1)
@@ -377,7 +398,7 @@ static function BruteForceDecodeEx(cText as character,nShift as numeric,nSignal 
     nKeySize:=Len(hb_NToC(nShift))
 
     for n:=0 to nShift
-        cTry:=DecodeEx(cText,(n*nSignal))
+        cTry:=DecodeEx(cText,(n*nSignal),lBase64Encode)
         cKey:=StrZero(n,nKeySize)
         hBruteForceDecode[cKey]:={=>}
         hBruteForceDecode[cKey]["shift"]:=n
@@ -386,11 +407,11 @@ static function BruteForceDecodeEx(cText as character,nShift as numeric,nSignal 
 
 return(hBruteForceDecode)
 
-static function NormalizeShift(n,b)
+static function NormalizeShift(n as numeric,b as numeric)
 
    local r as numeric
 
-   r:=n-(Int(n/b)*b)   // resto truncado
+   r:=(n-(Int(n/b)*b))   // resto truncado
 
    if (r<0)
       r+=b

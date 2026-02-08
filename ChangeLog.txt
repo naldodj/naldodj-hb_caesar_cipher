@@ -2,8 +2,16 @@
      * Change  ! Fix  % Optimize  + Add  - Remove  ; Comment
    Entries may not always be in chronological/commit order.
    See license at the end of file.
-   (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm")+" UTC naldodj (Remove debug prints in Main)"
+   (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm")+" UTC naldodj (Support Base64 option in CaesarCipher methods)"
 */
+
+2026-02-08 13:11 UTC naldodj (Support Base64 option in CaesarCipher methods)
+  Support Base64 option in CaesarCipher methods
+    Add an optional logical parameter (lBase64Encode) to Encode/Decode/BruteForceDecode and their Ex variants so callers can control internal Base64 encoding/decoding.
+    Update Main to pass the appropriate flags and to handle brute-force results without implicit Base64 decoding.
+    Preserve previous defaults (Encode: false, EncodeEx: true) via hb_Default calls.
+    Also add explicit numeric typing for NormalizeShift parameters and minor cleanups to avoid double Base64 wrapping during encode/decode and brute-force checks.
+      * src/core/hb_caesar_cipher.prg
 
 2026-02-07 13:40 UTC naldodj (Remove debug prints in Main)
   Remove debug prints in Main()
