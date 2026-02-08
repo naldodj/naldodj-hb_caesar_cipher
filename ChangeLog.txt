@@ -2,8 +2,14 @@
      * Change  ! Fix  % Optimize  + Add  - Remove  ; Comment
    Entries may not always be in chronological/commit order.
    See license at the end of file.
-   (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm")+" UTC naldodj (Support Base64 option in CaesarCipher methods)"
+   (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm")+" UTC naldodj (Disable extended mode in Caesar cipher calls)"
 */
+
+2026-02-08 13:38 UTC naldodj (Disable extended mode in Caesar cipher calls)
+  Disable extended mode in Caesar cipher calls
+    Pass explicit .F. as the third argument to EncodeEx, DecodeEx, and BruteForceDecodeEx calls in Main to disable extended mode and ensure consistent encoding/decoding behavior.
+    Updated multiple call sites in src/core/hb_caesar_cipher.prg; no other logic changes.
+      * src/core/hb_caesar_cipher.prg
 
 2026-02-08 13:11 UTC naldodj (Support Base64 option in CaesarCipher methods)
   Support Base64 option in CaesarCipher methods
