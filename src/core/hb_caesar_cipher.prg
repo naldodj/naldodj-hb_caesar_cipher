@@ -37,13 +37,14 @@ function Main()
     cCaesarCipherDecoded:=hb_CaesarCipher():Decode(cCaesarCipherEncoded,-nShift)
     ? "Decoded: ",cCaesarCipherDecoded,"<br/>"
 
+    nStep:=0
     cBruteForce:=""
     hBruteForceDecode:=hb_CaesarCipher():BruteForceDecode(cCaesarCipherEncoded)
     for each cKey in hb_HKeys(hBruteForceDecode)
-        cCaesarCipherEncoded:=hBruteForceDecode[cKey]["value"]
-        if (cCaesarCipherEncoded==cText)
+        cCaesarCipherDecoded:=hBruteForceDecode[cKey]["value"]
+        if (cCaesarCipherDecoded==cText)
             nStep:=hBruteForceDecode[cKey]["shift"]
-            cBruteForce:=cCaesarCipherEncoded
+            cBruteForce:=cCaesarCipherDecoded
             exit
         endif
     next //each
@@ -61,13 +62,14 @@ function Main()
     cCaesarCipherDecoded:=hb_CaesarCipher():Decode(cCaesarCipherEncoded,-nShift,.T.)
     ? "Decoded: ",cCaesarCipherDecoded,"<br/>"
 
+    nStep:=0
     cBruteForce:=""
-    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecode(cCaesarCipherEncoded,.T.)
+    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecode(cCaesarCipherEncoded,nil,nil,.T.)
     for each cKey in hb_HKeys(hBruteForceDecode)
-        cCaesarCipherEncoded:=hBruteForceDecode[cKey]["value"]
-        if (cCaesarCipherEncoded==cText)
+        cCaesarCipherDecoded:=hBruteForceDecode[cKey]["value"]
+        if (cCaesarCipherDecoded==cText)
             nStep:=hBruteForceDecode[cKey]["shift"]
-            cBruteForce:=cCaesarCipherEncoded
+            cBruteForce:=cCaesarCipherDecoded
             exit
         endif
     next //each
@@ -89,13 +91,14 @@ function Main()
     cCaesarCipherDecoded:=hb_CaesarCipher():DecodeEx(cCaesarCipherEncoded,-nShift,.F.)
     ? "Decoded: ",cCaesarCipherDecoded,"<br/>"
 
+    nStep:=0
     cBruteForce:=""
-    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded,.F.)
+    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded,NIL,NIL,.F.)
     for each cKey in hb_HKeys(hBruteForceDecode)
-        cCaesarCipherEncoded:=hBruteForceDecode[cKey]["value"]
-        if (cCaesarCipherEncoded==cText)
+        cCaesarCipherDecoded:=hBruteForceDecode[cKey]["value"]
+        if (cCaesarCipherDecoded==cText)
             nStep:=hBruteForceDecode[cKey]["shift"]
-            cBruteForce:=cCaesarCipherEncoded
+            cBruteForce:=cCaesarCipherDecoded
             exit
         endif
     next //each
@@ -114,13 +117,14 @@ function Main()
     cCaesarCipherDecoded:=hb_CaesarCipher():DecodeEx(cCaesarCipherEncoded,-nShift)
     ? "Decoded: ",cCaesarCipherDecoded,"<br/>"
 
+    nStep:=0
     cBruteForce:=""
     hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded)
     for each cKey in hb_HKeys(hBruteForceDecode)
-        cCaesarCipherEncoded:=hBruteForceDecode[cKey]["value"]
-        if (cCaesarCipherEncoded==cText)
+        cCaesarCipherDecoded:=hBruteForceDecode[cKey]["value"]
+        if (cCaesarCipherDecoded==cText)
             nStep:=hBruteForceDecode[cKey]["shift"]
-            cBruteForce:=cCaesarCipherEncoded
+            cBruteForce:=cCaesarCipherDecoded
             exit
         endif
     next //each
@@ -139,20 +143,17 @@ function Main()
 
     nStep:=0
     cBruteForce:=""
-    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded,.F.)
+    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded,nil,nil,.F.)
     for each cKey in hb_HKeys(hBruteForceDecode)
-        if (hBruteForceDecode[cKey]["value"]==cText)
+        cCaesarCipherDecoded:=hBruteForceDecode[cKey]["value"]
+        if (cCaesarCipherDecoded==cText)
             nStep:=hBruteForceDecode[cKey]["shift"]
-            cBruteForce:=hBruteForceDecode[cKey]["value"]
+            cBruteForce:=cCaesarCipherDecoded
             exit
         endif
     next //each
 
     ? "BruteForce: ",cBruteForce," :: Step: ",hb_NToc(nStep),"<br/>"
-
-    ? cHSep,"<br/>"
-
-    ? 'hb_CaesarCipher():EncodeEx(cText,'+hb_NToC(nShift)+')==hb_CaesarCipher():EncodeEx(cText,11): ',hb_CaesarCipher():EncodeEx(cText,nShift)==hb_CaesarCipher():EncodeEx(cText,11),"<br/>"
 
     nShift:=900
     ? cHSep,"<br/>"
@@ -165,17 +166,30 @@ function Main()
     cCaesarCipherDecoded:=hb_CaesarCipher():DecodeEx(cCaesarCipherEncoded,-nShift,.F.)
     ? "Decoded: ",cCaesarCipherDecoded,"<br/>"
 
+    nStep:=0
     cBruteForce:=""
-    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded,1000)
+    hBruteForceDecode:=hb_CaesarCipher():BruteForceDecodeEx(cCaesarCipherEncoded,1000,nil,.F.)
     for each cKey in hb_HKeys(hBruteForceDecode)
-        if (hBruteForceDecode[cKey]["value"]==cText)
+        cCaesarCipherDecoded:=hBruteForceDecode[cKey]["value"]
+        if (cCaesarCipherDecoded==cText)
             nStep:=hBruteForceDecode[cKey]["shift"]
-            cBruteForce:=hBruteForceDecode[cKey]["value"]
+            cBruteForce:=cCaesarCipherDecoded
             exit
         endif
     next //each
 
     ? "BruteForce: ",cBruteForce," :: Step: ",hb_NToc(nStep),"<br/>"
+
+    ? cHSep,"<br/>"
+    ? "<pre>",PADC("COMPARE :: NORMAL X EXTENDED",120," "),"</pre>"
+    ? cHSep,"<br/>"
+
+    ? 'hb_CaesarCipher():Encode(cText,11)==hb_CaesarCipher():EncodeEx(cText,11): ',hb_CaesarCipher():Encode(cText,11)==hb_CaesarCipher():EncodeEx(cText,11),"<br/>"
+    ? 'hb_CaesarCipher():Encode(cText,115)==hb_CaesarCipher():Encode(cText,11): ',hb_CaesarCipher():Encode(cText,115)==hb_CaesarCipher():Encode(cText,11),"<br/>"
+    ? 'hb_CaesarCipher():EncodeEx(cText,115)==hb_CaesarCipher():EncodeEx(cText,11): ',hb_CaesarCipher():EncodeEx(cText,115)==hb_CaesarCipher():EncodeEx(cText,11),"<br/>"
+    ? cHSep,"<br/>"
+    ? 'hb_CaesarCipher():EncodeEx(cText,10)==hb_CaesarCipher():EncodeEx(cText,11): ',hb_CaesarCipher():EncodeEx(cText,10)==hb_CaesarCipher():EncodeEx(cText,11),"<br/>"
+    ? 'hb_CaesarCipher():EncodeEx(cText,11)==hb_CaesarCipher():EncodeEx(cText,11): ',hb_CaesarCipher():EncodeEx(cText,11)==hb_CaesarCipher():EncodeEx(cText,11),"<br/>"
 
     ? cHSep,"<br/>"
 
@@ -232,9 +246,9 @@ static function Encode(cText as character,nShift as numeric,lBase64Encode as log
         cText:=hb_Base64Encode(cText)
     endif
 
-    for i:=1 to Len(cText)
+    for i:=1 to hb_BLen(cText)
 
-        nChar:=hb_bCode(hb_BSubStr(cText,i,1))
+        nChar:=hb_BCode(hb_BSubStr(cText,i,1))
 
         // ======= LETRAS =======
         if (((nChar>=65).and.nChar<=90).or.((nChar>=97).and.(nChar<=122)))
@@ -260,7 +274,7 @@ static function Encode(cText as character,nShift as numeric,lBase64Encode as log
 
     next i
 
-return(cOut)
+return(cOut) as character
 
 static function Decode(cText as character,nShift as numeric,lBase64Encode as logical)
     local cDecoded:=Encode(cText,nShift,.F.)
@@ -268,7 +282,7 @@ static function Decode(cText as character,nShift as numeric,lBase64Encode as log
     if (lBase64Encode)
         cDecoded:=hb_Base64Decode(cDecoded)
     endif
-return(cDecoded)
+return(cDecoded) as character
 
 static function BruteForceDecode(cText as character,nShift as numeric,nSignal as numeric,lBase64Encode as logical)
 
@@ -302,7 +316,7 @@ static function BruteForceDecode(cText as character,nShift as numeric,nSignal as
         hBruteForceDecode[cKey]["value"]:=cTry
     next n
 
-return(hBruteForceDecode)
+return(hBruteForceDecode) as hash
 
 static function EncodeEx(cText as character,nShift as numeric,lBase64Encode as logical)
 
@@ -325,9 +339,9 @@ static function EncodeEx(cText as character,nShift as numeric,lBase64Encode as l
         cText:=hb_Base64Encode(cText)
     endif
 
-    for i:=1 to Len(cText)
+    for i:=1 to hb_BLen(cText)
 
-        nChar:=hb_bCode(hb_BSubStr(cText,i,1))
+        nChar:=hb_BCode(hb_BSubStr(cText,i,1))
 
         // ======= LETRAS =======
         if (((nChar>=65).and.nChar<=90).or.((nChar>=97).and.(nChar<=122)))
@@ -363,7 +377,7 @@ static function EncodeEx(cText as character,nShift as numeric,lBase64Encode as l
 
     next i
 
-return(cOut)
+return(cOut) as character
 
 static function DecodeEx(cText as character,nShift as numeric,lBase64Encode as logical)
     local cDecoded:=EncodeEx(cText,nShift,.F.)
@@ -371,7 +385,7 @@ static function DecodeEx(cText as character,nShift as numeric,lBase64Encode as l
     if (lBase64Encode)
         cDecoded:=hb_Base64Decode(cDecoded)
     endif
-return(cDecoded)
+return(cDecoded) as character
 
 static function BruteForceDecodeEx(cText as character,nShift as numeric,nSignal as numeric,lBase64Encode as logical)
 
@@ -405,7 +419,7 @@ static function BruteForceDecodeEx(cText as character,nShift as numeric,nSignal 
         hBruteForceDecode[cKey]["value"]:=cTry
     next n
 
-return(hBruteForceDecode)
+return(hBruteForceDecode) as hash
 
 static function NormalizeShift(n as numeric,b as numeric)
 
@@ -417,4 +431,4 @@ static function NormalizeShift(n as numeric,b as numeric)
       r+=b
    endif
 
-return(r)
+return(r) as numeric

@@ -2,8 +2,15 @@
      * Change  ! Fix  % Optimize  + Add  - Remove  ; Comment
    Entries may not always be in chronological/commit order.
    See license at the end of file.
-   (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm")+" UTC naldodj (Disable extended mode in Caesar cipher calls)"
+   (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm")+" UTC naldodj (Fix brute-force decode logic and binary handling)"
 */
+
+2026-02-08 17:30 UTC naldodj (Fix brute-force decode logic and binary handling)
+  Fix brute-force decode logic and binary handling
+    Initialize nStep before brute-force loops, correct usage of decoded variable (cCaesarCipherDecoded) when comparing/assigning brute-force results, and pass explicit nil/flags to BruteForceDecode/BruteForceDecodeEx calls.
+    Replace Len/hb_bCode with binary-safe hb_BLen/hb_BCode/hb_BSubStr for proper byte iteration, add explicit return type annotations (as character/hash/numeric), and remove some redundant debug output.
+    These changes fix incorrect comparisons, ensure binary-safe processing, and make return types explicit.
+      * src/core/hb_caesar_cipher.prg
 
 2026-02-08 13:38 UTC naldodj (Disable extended mode in Caesar cipher calls)
   Disable extended mode in Caesar cipher calls
