@@ -5,6 +5,9 @@
    (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm")+" UTC naldodj (Fix brute-force decode logic and binary handling)"
 */
 
+2026-02-08 17:33 UTC naldodj (Fix brute-force decode logic and binary handling)
+  * src/core/hb_caesar_cipher.prg
+
 2026-02-08 17:30 UTC naldodj (Fix brute-force decode logic and binary handling)
   Fix brute-force decode logic and binary handling
     Initialize nStep before brute-force loops, correct usage of decoded variable (cCaesarCipherDecoded) when comparing/assigning brute-force results, and pass explicit nil/flags to BruteForceDecode/BruteForceDecodeEx calls.

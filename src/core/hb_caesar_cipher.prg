@@ -80,7 +80,7 @@ function Main()
     ? "<pre>",PADC("EXTENDED :: Shift("+hb_NToC(nShift)+")",120," "),"</pre>"
     ? cHSep,"<br/>"
 
-    cText:="São Paulo, 1 de Outubro de 1992. 8 horas da manhã..."
+    cText:="São Paulo, 1 de Outubro de 1992. 8 horas da manhã. Aqui estou mais um dia..."
     ? "Text: ",cText,"<br/>"
 
     ? cHSep,"<br/>"
