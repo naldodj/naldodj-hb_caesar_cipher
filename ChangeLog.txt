@@ -2,8 +2,26 @@
      * Change  ! Fix  % Optimize  + Add  - Remove  ; Comment
    Entries may not always be in chronological/commit order.
    See license at the end of file.
-   (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm")+" UTC naldodj (Fix brute-force decode logic and binary handling)"
+   (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm")+" UTC naldodj (Refactor project structure and introduce Caesar cipher tool.)"
 */
+
+2026-03-10 10:45 UTC naldodj (Refactor project structure and introduce Caesar cipher tool.)
+  Refactor project structure and introduce Caesar cipher tool.
+    This commit adds a standalone Caesar cipher CLI utility (caesar_cipher.exe) along with its build configuration and supporting files.
+    The tool provides file-based encryption and decryption using the Harbour implementation of the Caesar cipher, including optional Base64 encoding and extended transformation modes.
+    The Harbour implementation (hb_caesar_cipher.prg) has been relocated to the harbour_wasm directory to better reflect its intended use within the WebAssembly build environment.
+    Likewise, the Python implementation was moved to a dedicated py directory to improve language separation and project organization.
+    Additional artifacts such as build scripts, test files, and checksum files were added to support reproducible builds and validation.
+    Overall, this commit improves repository organization while introducing a functional Caesar cipher utility for testing, tooling, and educational purposes.
+      + src/core/caesar_cipher.exe
+      + src/core/caesar_cipher.hbp
+      + src/core/caesar_cipher.prg
+      + src/core/caesar_cipher.sha256
+      + src/core/go64.bat
+      + src/core/go64.bat.enc
+      + src/core/hbmk.hbm
+      * src/core/hb_caesar_cipher.prg -> src/harbour_wasm/hb_caesar_cipher.prg
+      * src/core/py_caesar_cipher.py -> src/py/py_caesar_cipher.py
 
 2026-02-08 17:33 UTC naldodj (Fix brute-force decode logic and binary handling)
   * src/core/hb_caesar_cipher.prg

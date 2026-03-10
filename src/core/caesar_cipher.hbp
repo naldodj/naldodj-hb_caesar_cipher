@@ -1,0 +1,18 @@
+-w3 -es2
+
+-cpp
+
+# Bibliotecas essenciais
+xhb.hbc
+hbct.hbc
+{win}hbwin.hbc
+hbmzip.hbc
+
+{win}-lucrt
+
+{win}-ldflag=/NODEFAULTLIB:msvcrt
+{win}-ldflag+=/NODEFAULTLIB:libucrt
+
+./caesar_cipher.prg
+
+-o./${hb_name}
