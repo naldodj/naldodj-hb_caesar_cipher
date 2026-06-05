@@ -1,0 +1,17 @@
+# caesar_cipher: Released to Public Domain.
+
+# Caesar cipher executable target.
+-w3 -es2
+-cpp
+-compr=max
+
+{allmsvc}-lucrt
+{allmsvc}-ldflag=/NODEFAULTLIB:msvcrt
+{allmsvc}-ldflag+=/NODEFAULTLIB:libucrt
+
+../hbm/caesar_cipher.hbm
+../hbc/caesar_cipher.hbc
+
+../src/core/caesar_cipher.prg
+
+-o../exe/win/${hb_comp}/${hb_name}

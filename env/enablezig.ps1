@@ -1,0 +1,1 @@
+Set-Item -Path Env:HBCAESAR_CIPHER_ZIG_ENABLE -Value "1"
