@@ -6,3 +6,4 @@ _commit.txt
 *.sh256
 src/tst/huffmannode_tst.sh256
 /src/tst/log
+/.vscode

@@ -21,12 +21,14 @@ PROCEDURE Main(...)
    LOCAL nShift := 3
    LOCAL lBase64 := .F.
    LOCAL lEx := .F.
+   LOCAL lBruteForce := .F.
 
    LOCAL cParam
    LOCAL cArg
    LOCAL idx
 
    LOCAL cData
+   LOCAL nWritten
 
    IF Empty(aArgs)
       ShowHelp()
@@ -75,6 +77,13 @@ PROCEDURE Main(...)
          lEx := (Lower(cParam) $ "1,t,true,y,yes")
          EXIT
 
+      CASE "-bf"
+      CASE "bruteforce"
+      CASE "-bruteforce"
+      CASE "--bruteforce"
+         lBruteForce := (Empty(cParam) .OR. Lower(cParam) $ "1,t,true,y,yes")
+         EXIT
+
       CASE "-h"
       CASE "--help"
          ShowHelp()
@@ -94,6 +103,11 @@ PROCEDURE Main(...)
       RETURN
    ENDIF
 
+   IF lBruteForce .AND. !(cAction == "d")
+      ? "Bruteforce is only available for decrypt action (-a=d)"
+      RETURN
+   ENDIF
+
    cData := hb_MemoRead(cFileSource)
 
    DO CASE
@@ -107,6 +121,23 @@ PROCEDURE Main(...)
       ENDIF
 
    CASE cAction == "d"
+
+      IF lBruteForce
+         nWritten := WriteBruteForceDecode(cData,cFileTarget,nShift,lBase64,lEx)
+         IF nWritten < 0
+            RETURN
+         ENDIF
+
+         ? "Done."
+         ? "Source :", cFileSource
+         ? "Target :", cFileTarget
+         ? "Files  :", nWritten
+         ? "Shift  :", Int(Abs(nShift))
+         ? "Base64 :", lBase64
+         ? "ModeEx :", lEx
+         ? "Brute  :", lBruteForce
+         RETURN
+      ENDIF
 
       IF lEx
          cData := hb_CaesarCipher():DecodeEx(cData,nShift,lBase64)
@@ -147,6 +178,7 @@ STATIC PROCEDURE ShowHelp()
    ? "-k=<shift>     shift key"
    ? "-b=true|false  base64 mode"
    ? "-x=true|false  extended mode"
+   ? "-bf[=true]     brute force decrypt; writes target_000.ext..target_<k>.ext"
    ?
    ? "Examples:"
    ?
@@ -155,8 +187,52 @@ STATIC PROCEDURE ShowHelp()
    ?
    ? "Decrypt:"
    ? "hb_caesar_cipher -a=d -s=out.enc -t=input.txt -k=10"
+   ?
+   ? "Bruteforce decrypt:"
+   ? "hb_caesar_cipher -a=d -s=out.enc -t=C:\tmp\gittkn.dec -k=115 --bruteforce"
 
 RETURN
+
+STATIC FUNCTION WriteBruteForceDecode(cText as character,cFileTarget as character,nShift as numeric,lBase64 as logical,lEx as logical)
+
+   LOCAL cFileOut as character
+   LOCAL cKey as character
+   LOCAL cTry as character
+
+   LOCAL n as numeric
+   LOCAL nKeySize as numeric
+   LOCAL nMaxShift as numeric
+   LOCAL nWritten as numeric := 0
+
+   nMaxShift := Int(Abs(nShift))
+   nKeySize := Len(hb_NToC(nMaxShift))
+
+   FOR n := 0 TO nMaxShift
+
+      cKey := StrZero(n,nKeySize)
+
+      IF lEx
+         cTry := hb_CaesarCipher():DecodeEx(cText,(-n),lBase64)
+      ELSE
+         cTry := hb_CaesarCipher():Decode(cText,(-n),lBase64)
+      ENDIF
+
+      cFileOut := BruteForceTargetFile(cFileTarget,cKey)
+
+      IF !hb_MemoWrit(cFileOut,cTry)
+         ? "Could not write target file:", cFileOut
+         RETURN(-1)
+      ENDIF
+
+      nWritten := nWritten + 1
+
+   NEXT n
+
+RETURN(nWritten) as numeric
+
+STATIC FUNCTION BruteForceTargetFile(cFileTarget as character,cKey as character)
+
+RETURN(hb_FNameDir(cFileTarget) + hb_FNameName(cFileTarget) + "_" + cKey + hb_FNameExt(cFileTarget)) as character
 
 function hb_CaesarCipher()
 

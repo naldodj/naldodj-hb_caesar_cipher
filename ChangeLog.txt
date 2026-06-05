@@ -2,8 +2,35 @@
      * Change  ! Fix  % Optimize  + Add  - Remove  ; Comment
    Entries may not always be in chronological/commit order.
    See license at the end of file.
-   (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm")+" UTC naldodj (Refactor project structure and introduce Caesar cipher tool.)"
+   (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm")+" UTC naldodj (Add caesar_cipher build tooling and bruteforce)"
 */
+
+2026-06-05 16:47 UTC naldodj (Add caesar_cipher build tooling and bruteforce)
+  Add build and environment tooling, binaries, and a brute-force decrypt mode for the caesar_cipher utility.
+  Changes include: add env presets (env/*.ps1, env/*.bat) and enablezig helper; new mk scripts for MSVC64 and experimental Zig builds (mk/* and mk/tools/*), project files (hbp/hbm/hbc), and produced executables/pdbs under exe/win; update README with build instructions and ChangeLog entry; ignore .vscode in .gitignore.
+  Implement -bf/--bruteforce option in src/core/caesar_cipher.prg with WriteBruteForceDecode and BruteForceTargetFile to emit multiple candidate outputs, update sha256 for the built exe, and minor docs fix in harbour_wasm source.
+  + env/caesar_cipher_env.bat
+  + env/caesar_cipher_env.ps1
+  + env/enablezig.ps1
+  + exe/win/msvc64/caesar_cipher.exe
+  + exe/win/zig/caesar_cipher.exe
+  + exe/win/zig/caesar_cipher.pdb
+  + hbc/caesar_cipher.hbc
+  + hbm/caesar_cipher.hbm
+  + hbp/caesar_cipher.hbp
+  + mk/go64_all.bat
+  + mk/go64_build.bat
+  + mk/go64_commit_check.bat
+  + mk/go64_gate.bat
+  + mk/go64_zig_build.bat
+  + mk/tools/go64_zig_build.bat
+  * .gitignore
+  * ChangeLog.txt
+  * README.md
+  * src/core/caesar_cipher.exe
+  * src/core/caesar_cipher.prg
+  * src/core/caesar_cipher.sha256
+  * src/harbour_wasm/hb_caesar_cipher.prg
 
 2026-03-10 10:45 UTC naldodj (Refactor project structure and introduce Caesar cipher tool.)
   Refactor project structure and introduce Caesar cipher tool.

@@ -203,6 +203,51 @@ Cripto-punk por dentro.
 
 ---
 
+## 🏗️ Build
+
+O repositório segue o mesmo layout de build usado por `C:\GitHub\naldodj-hb_syslog`:
+
+* `hbp\caesar_cipher.hbp`: projeto `hbmk2` do executável.
+* `hbm\caesar_cipher.hbm`: flags e bibliotecas comuns.
+* `hbc\caesar_cipher.hbc`: defaults do pacote.
+* `mk\go64_build.bat`: build MSVC64.
+* `mk\go64_gate.bat`: build MSVC64, smoke test com `--help` e commit check.
+* `mk\go64_zig_build.bat`: build experimental com Zig.
+* `env\caesar_cipher_env.ps1` e `env\caesar_cipher_env.bat`: presets de ambiente.
+
+Build com MSVC64:
+
+```bat
+mk\go64_build.bat
+```
+
+Gate completo:
+
+```bat
+mk\go64_gate.bat
+```
+
+Executável gerado:
+
+```text
+exe\win\msvc64\caesar_cipher.exe
+```
+
+Build experimental com Zig:
+
+```bat
+env\caesar_cipher_env.bat local
+mk\go64_zig_build.bat
+```
+
+Executável Zig:
+
+```text
+exe\win\zig\caesar_cipher.exe
+```
+
+---
+
 ## 🚀 Execução
 
 Copie o código e rode em:
